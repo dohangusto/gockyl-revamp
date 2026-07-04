@@ -17,33 +17,35 @@ struct FocusTimerView: View {
     }
 
     var body: some View {
-        VStack(spacing: AppSpacing.xl) {
-            Spacer()
+        AppScreen("Focus") {
+            VStack(spacing: AppSpacing.xl) {
+                Spacer()
 
-            ZStack {
-                Circle()
-                    .stroke(AppColor.surface, lineWidth: 12)
-                Circle()
-                    .trim(from: 0, to: viewModel.progress)
-                    .stroke(AppColor.accent, style: StrokeStyle(lineWidth: 12, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-                    .animation(.linear(duration: 1), value: viewModel.progress)
+                ZStack {
+                    Circle()
+                        .stroke(AppColor.surface, lineWidth: 12)
+                    Circle()
+                        .trim(from: 0, to: viewModel.progress)
+                        .stroke(AppColor.accent, style: StrokeStyle(lineWidth: 12, lineCap: .round))
+                        .rotationEffect(.degrees(-90))
+                        .animation(.linear(duration: 1), value: viewModel.progress)
 
-                Text(viewModel.remaining.clockString)
-                    .font(AppFont.counter)
-                    .foregroundStyle(AppColor.text)
+                    Text(viewModel.remaining.clockString)
+                        .font(AppFont.counter)
+                        .foregroundStyle(AppColor.text)
+                }
+                .frame(width: 240, height: 240)
+
+                statusLabel
+
+                Spacer()
+
+                actionButton
             }
-            .frame(width: 240, height: 240)
-
-            statusLabel
-
-            Spacer()
-
-            actionButton
-                .padding(.horizontal, AppSpacing.lg)
+            .padding(.horizontal, AppSpacing.lg)
+            .frame(maxHeight: .infinity)
         }
-        .padding()
-        .navigationTitle("Focus")
+        .toolbar(.hidden, for: .navigationBar)
         .navigationBarBackButtonHidden(viewModel.phase == .running)
         .onAppear { viewModel.start() }
     }

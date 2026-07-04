@@ -15,7 +15,7 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        AppScreen("Settings") {
             Form {
                 Section("Frog") {
                     TextField("Name", text: $viewModel.frogName)
@@ -26,8 +26,9 @@ struct SettingsView: View {
                     LabeledContent("Version", value: viewModel.appVersion)
                 }
             }
-            .navigationTitle("Settings")
-            .onAppear { viewModel.refresh() }
+            .contentMargins(.bottom, FloatingTabBar.clearance, for: .scrollContent)
         }
+        .toolbar(.hidden, for: .tabBar)
+        .onAppear { viewModel.refresh() }
     }
 }

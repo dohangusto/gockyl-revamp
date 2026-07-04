@@ -21,41 +21,41 @@ struct HomeView: View {
         @Bindable var router = router
 
         NavigationStack(path: $router.homePath) {
-            VStack(spacing: AppSpacing.xl) {
-                bugCounter
+            AppScreen("Gockyl") {
+                MaterialBadge(systemImage: "ladybug.fill", text: "\(viewModel.bugBalance)")
+            } content: {
+                VStack(spacing: AppSpacing.xl) {
+                    Spacer(minLength: AppSpacing.lg)
 
-                Image("gockyl_frog_idle")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxHeight: 220)
-                    .accessibilityLabel("Gockyl the frog")
+                    Image("gockyl_frog_idle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: 240)
+                        .accessibilityLabel("Gockyl the frog")
 
-                durationPicker
+                    Spacer(minLength: AppSpacing.lg)
 
-                PrimaryButton(title: "Start Focus") {
-                    router.push(.focusTimer(minutes: viewModel.selectedMinutes))
+                    durationPicker
+
+                    PrimaryButton(title: "Start Focus") {
+                        router.push(.focusTimer(minutes: viewModel.selectedMinutes))
+                    }
                 }
                 .padding(.horizontal, AppSpacing.lg)
+                .padding(.bottom, FloatingTabBar.clearance)
+                .frame(maxHeight: .infinity)
             }
-            .padding()
-            .frame(maxHeight: .infinity)
-            .navigationTitle("Gockyl")
+            .toolbar(.hidden, for: .navigationBar)
+            .toolbar(.hidden, for: .tabBar)
             .navigationDestination(for: AppRoute.self, destination: destination)
             .onAppear { viewModel.refresh() }
         }
     }
 
-    private var bugCounter: some View {
-        Label("\(viewModel.bugBalance)", systemImage: "ladybug.fill")
-            .font(AppFont.title)
-            .foregroundStyle(AppColor.text)
-            .frame(maxWidth: .infinity, alignment: .trailing)
-    }
-
     private var durationPicker: some View {
-        VStack(spacing: AppSpacing.sm) {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
             Text("Focus for")
-                .font(AppFont.headline)
+                .font(AppFont.caption)
                 .foregroundStyle(AppColor.secondaryText)
 
             Picker("Duration", selection: $viewModel.selectedMinutes) {

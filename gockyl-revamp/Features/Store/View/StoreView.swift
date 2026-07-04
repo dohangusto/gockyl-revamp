@@ -17,24 +17,21 @@ struct StoreView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        AppScreen("Store") {
+            MaterialBadge(systemImage: "ladybug.fill", text: "\(viewModel.bugBalance)")
+        } content: {
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: AppSpacing.lg) {
+                LazyVStack(alignment: .leading, spacing: AppSpacing.xl) {
                     ForEach(viewModel.categories, id: \.self) { category in
                         section(for: category)
                     }
                 }
-                .padding()
+                .padding(.horizontal, AppSpacing.lg)
             }
-            .navigationTitle("Store")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Label("\(viewModel.bugBalance)", systemImage: "ladybug.fill")
-                        .font(AppFont.headline)
-                }
-            }
-            .onAppear { viewModel.refresh() }
+            .contentMargins(.bottom, FloatingTabBar.clearance, for: .scrollContent)
         }
+        .toolbar(.hidden, for: .tabBar)
+        .onAppear { viewModel.refresh() }
     }
 
     private func section(for category: StoreItem.Category) -> some View {

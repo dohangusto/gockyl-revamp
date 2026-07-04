@@ -15,7 +15,7 @@ struct StatisticsView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        AppScreen("Statistics") {
             List {
                 Section {
                     HStack(spacing: AppSpacing.md) {
@@ -41,9 +41,10 @@ struct StatisticsView: View {
                     }
                 }
             }
-            .navigationTitle("Statistics")
-            .onAppear { viewModel.refresh() }
+            .contentMargins(.bottom, FloatingTabBar.clearance, for: .scrollContent)
         }
+        .toolbar(.hidden, for: .tabBar)
+        .onAppear { viewModel.refresh() }
     }
 }
 
