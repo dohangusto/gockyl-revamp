@@ -12,6 +12,9 @@ struct FocusTimerView: View {
     @State private var viewModel: FocusTimerViewModel
     @Environment(AppRouter.self) private var router
 
+    /// Scales the timer readout with Dynamic Type while keeping it large.
+    @ScaledMetric(relativeTo: .largeTitle) private var counterSize: CGFloat = 56
+
     init(viewModel: FocusTimerViewModel) {
         _viewModel = State(initialValue: viewModel)
     }
@@ -31,7 +34,7 @@ struct FocusTimerView: View {
                         .animation(.linear(duration: 1), value: viewModel.progress)
 
                     Text(viewModel.remaining.clockString)
-                        .font(AppFont.counter)
+                        .font(AppFont.counter(size: counterSize))
                         .foregroundStyle(AppColor.text)
                 }
                 .frame(width: 240, height: 240)
@@ -46,6 +49,7 @@ struct FocusTimerView: View {
             .frame(maxHeight: .infinity)
         }
         .toolbar(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .tabBar)
         .navigationBarBackButtonHidden(viewModel.phase == .running)
         .onAppear { viewModel.start() }
     }

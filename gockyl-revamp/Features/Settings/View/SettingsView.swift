@@ -26,9 +26,7 @@ struct SettingsView: View {
                     LabeledContent("Version", value: viewModel.appVersion)
                 }
             }
-            .contentMargins(.bottom, FloatingTabBar.clearance, for: .scrollContent)
         }
-        .toolbar(.hidden, for: .tabBar)
         .onAppear { viewModel.refresh() }
     }
 }

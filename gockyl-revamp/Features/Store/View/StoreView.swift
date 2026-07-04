@@ -28,9 +28,7 @@ struct StoreView: View {
                 }
                 .padding(.horizontal, AppSpacing.lg)
             }
-            .contentMargins(.bottom, FloatingTabBar.clearance, for: .scrollContent)
         }
-        .toolbar(.hidden, for: .tabBar)
         .onAppear { viewModel.refresh() }
     }
 

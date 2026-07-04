@@ -2,9 +2,9 @@
 //  MainTabView.swift
 //  gockyl-revamp
 //
-//  The root tab shell shown after onboarding. It keeps a native `TabView` so
-//  each tab preserves its own navigation state, but hides the default tab bar
-//  and overlays a floating capsule navigation instead.
+//  The root tab shell shown after onboarding. Uses the native `TabView`, which
+//  on iOS 26 already renders as a floating Liquid Glass tab bar with the built-in
+//  tab-switch effect. Each screen supplies its own large header via `AppScreen`.
 //
 
 import SwiftUI
@@ -17,32 +17,22 @@ struct MainTabView: View {
         @Bindable var router = router
 
         TabView(selection: $router.selectedTab) {
-            HomeView(viewModel: HomeViewModel(profileRepository: environment.profileRepository))
-                .tag(AppTab.home)
+            Tab(AppTab.home.title, systemImage: AppTab.home.systemImage, value: AppTab.home) {
+                HomeView(viewModel: HomeViewModel(profileRepository: environment.profileRepository))
+            }
 
-            StatisticsView(viewModel: StatisticsViewModel(sessionRepository: environment.focusSessionRepository))
-                .tag(AppTab.statistics)
+            Tab(AppTab.statistics.title, systemImage: AppTab.statistics.systemImage, value: AppTab.statistics) {
+                StatisticsView(viewModel: StatisticsViewModel(sessionRepository: environment.focusSessionRepository))
+            }
 
-            StoreView(viewModel: StoreViewModel(profileRepository: environment.profileRepository))
-                .tag(AppTab.store)
+            Tab(AppTab.store.title, systemImage: AppTab.store.systemImage, value: AppTab.store) {
+                StoreView(viewModel: StoreViewModel(profileRepository: environment.profileRepository))
+            }
 
-            SettingsView(viewModel: SettingsViewModel(profileRepository: environment.profileRepository))
-                .tag(AppTab.settings)
-        }
-        .toolbar(.hidden, for: .tabBar)
-        .overlay(alignment: .bottom) {
-            if showsFloatingBar {
-                FloatingTabBar(selection: $router.selectedTab)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            Tab(AppTab.settings.title, systemImage: AppTab.settings.systemImage, value: AppTab.settings) {
+                SettingsView(viewModel: SettingsViewModel(profileRepository: environment.profileRepository))
             }
         }
-        .animation(.snappy(duration: 0.25), value: showsFloatingBar)
         .tint(AppColor.accent)
-    }
-
-    /// Hidden while a Home detail (e.g. a focus session) is pushed, so those
-    /// screens stay immersive.
-    private var showsFloatingBar: Bool {
-        !(router.selectedTab == .home && !router.homePath.isEmpty)
     }
 }

@@ -41,9 +41,7 @@ struct StatisticsView: View {
                     }
                 }
             }
-            .contentMargins(.bottom, FloatingTabBar.clearance, for: .scrollContent)
         }
-        .toolbar(.hidden, for: .tabBar)
         .onAppear { viewModel.refresh() }
     }
 }

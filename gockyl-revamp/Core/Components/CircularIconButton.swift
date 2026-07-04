@@ -2,9 +2,10 @@
 //  CircularIconButton.swift
 //  gockyl-revamp
 //
-//  A compact circular toolbar control on a soft translucent material, with a
-//  monochrome icon. Used for primary actions on the right of a large header so
-//  they stay available without dominating the hierarchy.
+//  Toolbar controls built from native iOS 26 Liquid Glass components rather than
+//  hand-rolled materials: an icon `Button` using `.buttonStyle(.glass)`, and a
+//  read-only badge using the `.glassEffect` modifier. Both use semantic fonts so
+//  they scale with Dynamic Type.
 //
 
 import SwiftUI
@@ -13,34 +14,29 @@ struct CircularIconButton: View {
     let systemImage: String
     var action: () -> Void = {}
 
-    /// Fixed diameter keeps every toolbar control consistently sized.
-    private let diameter: CGFloat = 38
-
     var body: some View {
         Button(action: action) {
             Image(systemName: systemImage)
-                .font(.system(size: 16, weight: .semibold))
+                .font(.title3)
                 .foregroundStyle(AppColor.text)
-                .frame(width: diameter, height: diameter)
-                .background(.ultraThinMaterial, in: Circle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.glass)
+        .buttonBorderShape(.circle)
     }
 }
 
-/// A pill-shaped counter on the same material as `CircularIconButton`, for
-/// read-only status such as the bug balance.
+/// A read-only status pill (e.g. the bug balance) on native Liquid Glass.
 struct MaterialBadge: View {
     let systemImage: String
     let text: String
 
     var body: some View {
         Label(text, systemImage: systemImage)
-            .font(AppFont.caption.weight(.semibold))
+            .font(.callout.weight(.semibold))
             .foregroundStyle(AppColor.text)
             .padding(.horizontal, AppSpacing.md)
-            .frame(height: 38)
-            .background(.ultraThinMaterial, in: Capsule())
+            .padding(.vertical, AppSpacing.sm)
+            .glassEffect(.regular, in: .capsule)
     }
 }
 

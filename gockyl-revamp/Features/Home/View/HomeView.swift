@@ -42,11 +42,9 @@ struct HomeView: View {
                     }
                 }
                 .padding(.horizontal, AppSpacing.lg)
-                .padding(.bottom, FloatingTabBar.clearance)
                 .frame(maxHeight: .infinity)
             }
             .toolbar(.hidden, for: .navigationBar)
-            .toolbar(.hidden, for: .tabBar)
             .navigationDestination(for: AppRoute.self, destination: destination)
             .onAppear { viewModel.refresh() }
         }
