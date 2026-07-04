@@ -16,8 +16,8 @@ enum AppFont {
     static let body = Font.system(.body, design: .rounded)
     static let caption = Font.system(.caption, design: .rounded)
 
-    /// The large timer readout. Built from a `@ScaledMetric` size in the view so
-    /// it also honours Dynamic Type; see `FocusTimerView`.
+    /// A large numeric readout (e.g. a countdown). Built from a `@ScaledMetric`
+    /// size in the view so it also honours Dynamic Type.
     static func counter(size: CGFloat) -> Font {
         .system(size: size, weight: .bold, design: .rounded).monospacedDigit()
     }

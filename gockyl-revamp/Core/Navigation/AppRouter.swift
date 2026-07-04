@@ -23,10 +23,6 @@ final class AppRouter {
         selectedTab = tab
     }
 
-    func push(_ route: AppRoute) {
-        homePath.append(route)
-    }
-
     func popToRoot() {
         homePath = NavigationPath()
     }

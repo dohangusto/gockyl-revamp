@@ -18,11 +18,20 @@ struct MainTabView: View {
 
         TabView(selection: $router.selectedTab) {
             Tab(AppTab.home.title, systemImage: AppTab.home.systemImage, value: AppTab.home) {
-                HomeView(viewModel: HomeViewModel(profileRepository: environment.profileRepository))
+                HomeView(viewModel: HomeViewModel(
+                    profileRepository: environment.profileRepository,
+                    lockedInRepository: environment.lockedInSessionRepository,
+                    monitoringRepository: environment.monitoringSessionRepository,
+                    screenTime: environment.screenTimeService,
+                    liveActivity: environment.liveActivityService
+                ))
             }
 
             Tab(AppTab.statistics.title, systemImage: AppTab.statistics.systemImage, value: AppTab.statistics) {
-                StatisticsView(viewModel: StatisticsViewModel(sessionRepository: environment.focusSessionRepository))
+                StatisticsView(viewModel: StatisticsViewModel(
+                    lockedInRepository: environment.lockedInSessionRepository,
+                    monitoringRepository: environment.monitoringSessionRepository
+                ))
             }
 
             Tab(AppTab.store.title, systemImage: AppTab.store.systemImage, value: AppTab.store) {
@@ -30,7 +39,10 @@ struct MainTabView: View {
             }
 
             Tab(AppTab.settings.title, systemImage: AppTab.settings.systemImage, value: AppTab.settings) {
-                SettingsView(viewModel: SettingsViewModel(profileRepository: environment.profileRepository))
+                SettingsView(viewModel: SettingsViewModel(
+                    profileRepository: environment.profileRepository,
+                    screenTime: environment.screenTimeService
+                ))
             }
         }
         .tint(AppColor.accent)

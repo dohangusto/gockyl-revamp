@@ -12,7 +12,8 @@ import SwiftData
 enum PersistenceController {
     /// Every `@Model` type that participates in the store.
     static let schema = Schema([
-        FocusSession.self,
+        LockedInSession.self,
+        MonitoringSession.self,
         FrogProfile.self,
     ])
 

@@ -20,23 +20,20 @@ struct StatisticsView: View {
                 Section {
                     HStack(spacing: AppSpacing.md) {
                         StatCard(title: "Sessions", value: "\(viewModel.totalSessions)")
-                        StatCard(title: "Focused", value: viewModel.totalFocusedTime.compactString)
-                        StatCard(
-                            title: "Completion",
-                            value: viewModel.completionRate.formatted(.percent.precision(.fractionLength(0)))
-                        )
+                        StatCard(title: "Locked-in", value: viewModel.lockedInTime.compactString)
+                        StatCard(title: "Limit hits", value: "\(viewModel.limitHits)")
                     }
                     .listRowInsets(EdgeInsets())
                     .listRowBackground(Color.clear)
                 }
 
                 Section("Recent") {
-                    if viewModel.recentSessions.isEmpty {
-                        Text("No sessions yet. Start focusing!")
+                    if viewModel.recent.isEmpty {
+                        Text("No sessions yet. Start one from Home!")
                             .foregroundStyle(AppColor.secondaryText)
                     } else {
-                        ForEach(viewModel.recentSessions) { session in
-                            SessionRow(session: session)
+                        ForEach(viewModel.recent) { item in
+                            SessionRow(item: item)
                         }
                     }
                 }
@@ -66,23 +63,25 @@ private struct StatCard: View {
 }
 
 private struct SessionRow: View {
-    let session: FocusSession
+    let item: StatisticsViewModel.RecentItem
 
     var body: some View {
         HStack {
-            Image(systemName: session.isCompleted ? "checkmark.circle.fill" : "xmark.circle")
-                .foregroundStyle(session.isCompleted ? AppColor.accent : AppColor.secondaryText)
+            Image(systemName: item.symbol)
+                .foregroundStyle(item.isPositive ? AppColor.accent : AppColor.secondaryText)
             VStack(alignment: .leading) {
-                Text(session.startDate.formatted(date: .abbreviated, time: .shortened))
+                Text(item.title)
                     .font(AppFont.body)
-                Text(session.focusedDuration.compactString)
+                Text("\(item.detail) · \(item.date.formatted(date: .abbreviated, time: .shortened))")
                     .font(AppFont.caption)
                     .foregroundStyle(AppColor.secondaryText)
             }
             Spacer()
-            Text("+\(session.bugsEarned) 🐛")
-                .font(AppFont.caption)
-                .foregroundStyle(AppColor.secondaryText)
+            if item.flies > 0 {
+                Text("+\(item.flies) 🪰")
+                    .font(AppFont.caption)
+                    .foregroundStyle(AppColor.secondaryText)
+            }
         }
     }
 }

@@ -1,14 +1,13 @@
 //
-//  AppRoute.swift
+//  AppTab.swift
 //  gockyl-revamp
 //
-//  The set of destinations the app can navigate to. Modelling routes as an
-//  enum keeps navigation type-safe and centralised.
+//  The top-level tabs shown once onboarding is complete. Modelling them as an
+//  enum keeps tab selection type-safe and centralised.
 //
 
 import Foundation
 
-/// The top-level tabs shown once onboarding is complete.
 enum AppTab: String, CaseIterable, Identifiable {
     case home
     case statistics
@@ -34,10 +33,4 @@ enum AppTab: String, CaseIterable, Identifiable {
         case .settings: "gearshape.fill"
         }
     }
-}
-
-/// Pushed destinations within a navigation stack.
-enum AppRoute: Hashable {
-    case focusTimer(minutes: Int)
-    case sessionSummary(sessionID: UUID)
 }

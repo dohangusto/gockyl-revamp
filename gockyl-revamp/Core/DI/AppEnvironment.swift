@@ -14,20 +14,32 @@ import Observation
 @Observable
 @MainActor
 final class AppEnvironment {
-    let focusSessionRepository: FocusSessionRepositoryProtocol
+    let lockedInSessionRepository: LockedInSessionRepositoryProtocol
+    let monitoringSessionRepository: MonitoringSessionRepositoryProtocol
     let profileRepository: ProfileRepositoryProtocol
+    let screenTimeService: ScreenTimeService
+    let liveActivityService: LiveActivityService
 
     init(modelContext: ModelContext) {
-        self.focusSessionRepository = FocusSessionRepository(context: modelContext)
+        self.lockedInSessionRepository = LockedInSessionRepository(context: modelContext)
+        self.monitoringSessionRepository = MonitoringSessionRepository(context: modelContext)
         self.profileRepository = ProfileRepository(context: modelContext)
+        self.screenTimeService = ScreenTimeService()
+        self.liveActivityService = LiveActivityService()
     }
 
     /// Designated initialiser for tests / previews that want to inject fakes.
     init(
-        focusSessionRepository: FocusSessionRepositoryProtocol,
-        profileRepository: ProfileRepositoryProtocol
+        lockedInSessionRepository: LockedInSessionRepositoryProtocol,
+        monitoringSessionRepository: MonitoringSessionRepositoryProtocol,
+        profileRepository: ProfileRepositoryProtocol,
+        screenTimeService: ScreenTimeService,
+        liveActivityService: LiveActivityService
     ) {
-        self.focusSessionRepository = focusSessionRepository
+        self.lockedInSessionRepository = lockedInSessionRepository
+        self.monitoringSessionRepository = monitoringSessionRepository
         self.profileRepository = profileRepository
+        self.screenTimeService = screenTimeService
+        self.liveActivityService = liveActivityService
     }
 }
